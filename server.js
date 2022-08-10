@@ -5,7 +5,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use(express.static("cleint-static-website"));
+app.use(express.static("static-universal-link-poc"));
 
 app.use("/", function (req, res) {
   res.sendFile(path.join(__dirname + "/static-universal-link-poc/index.html"));
