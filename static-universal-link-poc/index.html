@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta name="apple-itunes-app" content="app-id=1583950147" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Static Universal Link POC</title>
+  </head>
+
+  <body>
+    <view id="buttonContainer"></view>
+    <h4>Static Universal Link POC</h4>
+  </body>
+  <script>
+    const checkIfAndroid = () => {
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      if (/android/i.test(userAgent)) {
+        return true;
+      }
+      return false;
+    };
+
+    const handleInstallPrompt = async () => {
+      if (checkIfAndroid()) {
+        try {
+          const relatedApps = await navigator.getInstalledRelatedApps();
+          if (relatedApps?.length) {
+            window.open(window.location.href);
+            return;
+          }
+          window.location =
+            "https://play.google.com/store/apps/details?id=com.tollway";
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    const showButton = () => {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.innerHTML = "switch to app";
+
+      button.onclick = handleInstallPrompt;
+
+      var container = document.getElementById("buttonContainer");
+      container.appendChild(button);
+    };
+
+    if (!checkIfAndroid()) {
+      showButton();
+    }
+  </script>
+</html>
